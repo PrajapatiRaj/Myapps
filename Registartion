@@ -1,0 +1,104 @@
+package com.example.ram.mysql_login;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class reg extends AppCompatActivity implements View.OnClickListener {
+
+
+    EditText e1,e2,e3;
+    Button b1;
+    StringRequest stringRequest;
+    RequestQueue requestQueue;
+    String url="http://www.fluxtechsolutions.com/suffle/api/signup";
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_reg);
+
+        e1=(EditText)findViewById(R.id.uname);
+        e2=(EditText)findViewById(R.id.email);
+        e3=(EditText)findViewById(R.id.pass);
+        b1=(Button)findViewById(R.id.button3);
+
+        b1.setOnClickListener(this);
+
+
+    }
+
+    private void sinup()
+    {
+        requestQueue = Volley.newRequestQueue(reg.this);
+
+        stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    String a = jsonObject.getString("successful");
+                    if (a.equals("true")) {
+                        Toast.makeText(reg.this, "Success" + jsonObject.getString("successful"), Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Toast.makeText(reg.this, "Eror"+ s, Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<String, String>();
+
+                map.put("username",e1.getText().toString());
+                map.put("email", e2.getText().toString());
+                map.put("password",e3.getText().toString());
+                return map;
+
+            }
+        };
+        requestQueue = Volley.newRequestQueue(reg.this);
+        requestQueue.add(stringRequest);
+
+
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        sinup();
+
+    }
+}
+
