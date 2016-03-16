@@ -1,0 +1,60 @@
+package fluxtech.psychopath.com.json_data;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MainActivity extends AppCompatActivity {
+
+
+    RequestQueue requestQueue;
+
+
+
+    private static final String url = "http://myinfo.comuf.com/ram/game.json";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        Toast.makeText(MainActivity.this, "i am call", Toast.LENGTH_LONG).show();
+          requestQueue=Volley.newRequestQueue(MainActivity.this);
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,url,null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        System.out.println(response);
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        requestQueue.add(jsObjRequest);
+
+
+
+    }
+
+
+}
+
