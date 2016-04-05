@@ -1,0 +1,111 @@
+package com.example.demoxml;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.res.AssetManager;
+import android.util.Log;
+import android.view.Menu;
+
+public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		 
+		
+		  try {
+			     
+			    AssetManager manager = getAssets();
+		        InputStream stream;
+			    XMLDOMParser parser = new XMLDOMParser();  
+	          //  DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	          //  DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	            Log.i("DocumentBuilder--->", "Document Building is complete--> ready for parsing");
+ 
+	            stream = manager.open("game.xml");
+	            Document doc1 = parser.getDocument(stream);
+	              
+	            
+	            doc1.getDocumentElement().normalize();
+
+	            Log.i("Document--('-')->","it is open");
+
+	           	                  
+	               NodeList  nodeList2= doc1.getElementsByTagName("dict");  
+	                
+	               
+		            Log.i("Document"," ------------------>"+nodeList2.getLength()); 
+		            
+		            
+	               
+	               for (int j = 0; j < nodeList2.getLength(); j++) 
+	               {
+		                Element ee = (Element) nodeList2.item(j);
+		                 
+		                	   String k1=parser.getValue(ee, "string1");
+				               String k2=parser.getValue(ee, "string2");
+				               String k3=parser.getValue(ee, "string3");
+				               String k4=parser.getValue(ee, "string4");
+				               
+				               
+				               Log.i("---> k1",""+k1);
+				               Log.i("---> k2 ",""+k2);
+				               Log.i("---> k3 ",""+k3);
+				               Log.i("---> k4",""+k4);
+		                	
+		                	
+		                
+		                	
+		                	
+		                	   String k5=parser.getValue(ee, "stringa");
+				               String k6=parser.getValue(ee, "stringb");
+				               String k7=parser.getValue(ee, "stringc");
+				               String k8=parser.getValue(ee, "stringd");
+				               
+				               Log.i("---> k5 ",""+k5);
+				               Log.i("---> k6",""+k6);
+				               Log.i("---> k7 ",""+k7);
+				               Log.i("---> k8 ",""+k8);
+		                	
+		                	
+		                 
+		                	
+		                	 String k9=parser.getValue(ee, "string");	
+		                	 
+		                	   Log.i("---> k9 ",""+k9);
+		                
+		               
+	            }
+	            
+	              
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		
+		
+		
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+}
